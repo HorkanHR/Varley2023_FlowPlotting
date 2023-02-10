@@ -1,0 +1,54 @@
+---
+title: "FlowPlottingCode"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Plotting code for transgenic takeover in recipient animals as calculated using spectral flow 
+
+
+```{r}
+
+## import packages 
+
+library(ggplot2)
+
+## import data and reformat 
+
+data <- read.csv("FullNormPlot_Final.csv")
+data <- as.data.frame(data)
+
+## custom colour palette
+
+mycolsR <- c("#9A1414", "#A29F9F", "#FFBBAB","#FE7D60", "#D61B0D")
+
+## plot with specific save details
+
+png("FlowPlotFinalAll", 1200, 1200, pointsize=5000)
+ggplot(data, aes(x=data$Name, y=data$NormalizedPercent, color=data$ColourBy)) + 
+  geom_boxplot() +
+  ylab("Normalized % fluorescent cells") +
+  xlab("Sample") +
+  scale_x_discrete(limits = c("Donor","Recipient", "Min1","Mid1","Max1","Max2","Max3","Max4","Max5")) +
+  scale_color_manual(values = c(mycolsR)) +
+  theme_bw() +
+  theme(legend.position = "none")
+dev.off()
+
+## plot with ggsave
+
+ggplot(data, aes(x=data$Name, y=data$NormalizedPercent, color=data$ColourBy)) + 
+  geom_boxplot() +
+  ylab("Normalized % fluorescent cells") +
+  xlab("Sample") +
+  scale_x_discrete(limits = c("Donor","Recipient", "Min1","Mid1","Max1","Max2","Max3","Max4","Max5")) +
+  scale_color_manual(values = c(mycolsR)) +
+  theme_bw() +
+  theme(legend.position = "none") + 
+  ggsave(filename = "theother.png", width = 4.8, height = 4.8, device='png', dpi=700)
+```
+
