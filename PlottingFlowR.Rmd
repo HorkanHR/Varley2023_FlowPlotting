@@ -19,7 +19,7 @@ library(ggplot2)
 
 ## import data and reformat 
 
-data <- read.csv("FullNormPlot_Final.csv")
+data <- read.csv("FinalPlottingData.csv")
 data <- as.data.frame(data)
 
 ## custom colour palette
@@ -50,5 +50,20 @@ ggplot(data, aes(x=data$Name, y=data$NormalizedPercent, color=data$ColourBy)) +
   theme_bw() +
   theme(legend.position = "none") + 
   ggsave(filename = "theother.png", width = 4.8, height = 4.8, device='png', dpi=700)
+  
+## for review (rotated axis laels and darker bolded text)
+
+ggplot(data, aes(x=data$Name, y=data$NormalizedPercent, color=data$ColourBy)) + 
+  geom_boxplot() +
+  ylab("Normalized % fluorescent cells") +
+  xlab("Sample") +
+  scale_x_discrete(limits = c("Donor","Recipient", "Min1","Mid1","Max1","Max2","Max3","Max4","Max5")) +
+  scale_color_manual(values = c(mycolsR)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  theme(axis.text = element_text(color="black", face = "bold"),
+    axis.ticks = element_line(color = "black")) +
+  theme(axis.text.x = element_text(angle = 45, hjust=1)) +
+  ggsave(filename = "plotted.png", width = 4.8, height = 4.8, device='png', dpi=700)
 ```
 
